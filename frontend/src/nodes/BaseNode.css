@@ -1,0 +1,48 @@
+/* BaseNode.css */
+/* Shared styling for all pipeline nodes. Variants set the accent color. */
+
+.base-node {
+  width: 200px;
+  min-height: 80px;
+  border: 1px solid var(--node-accent, #1c2536);
+  border-radius: 6px;
+  background: #fff;
+  font-size: 12px;
+}
+
+.base-node__header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  font-weight: 600;
+  color: var(--node-accent, #1c2536);
+  border-bottom: 1px solid var(--node-accent, #1c2536);
+}
+
+.base-node__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+}
+
+.base-node__field {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.base-node__field input,
+.base-node__field textarea {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Variants */
+.base-node--default   { --node-accent: #1c2536; }
+.base-node--action    { --node-accent: #2563eb; }
+.base-node--logic     { --node-accent: #d97706; }
+.base-node--transform { --node-accent: #7c3aed; }
+.base-node--data      { --node-accent: #059669; }
+.base-node--timing    { --node-accent: #dc2626; }
