@@ -15,7 +15,8 @@
 //
 // Extra JSX can be passed as `children`.
 
-import { Handle, Position } from 'reactflow';
+import { useEffect } from 'react';
+import { Handle, Position, useUpdateNodeInternals } from 'reactflow';
 import { useStore } from '../store';
 import './BaseNode.css';
 
@@ -55,6 +56,14 @@ export const BaseNode = ({ id, data, config, children }) => {
   const resolvedHandles =
     typeof handles === 'function' ? handles(id, data) : handles;
 
+  // When the set of handles changes (e.g. dynamic variable handles),
+  // tell React Flow to re-measure them so edges attach correctly.
+  const updateNodeInternals = useUpdateNodeInternals();
+  const handleSignature = resolvedHandles.map((h) => h.id).join('|');
+  useEffect(() => {
+    updateNodeInternals(id);
+  }, [handleSignature, id, updateNodeInternals]);
+
   const renderField = (field) => {
     const value = getValue(field);
     const onChange = makeOnChange(field);
@@ -83,7 +92,11 @@ export const BaseNode = ({ id, data, config, children }) => {
   };
 
   return (
-    <div className={`base-node base-node--${variant}`}>
+    <div
+      className={`base-node base-node--${variant}${
+        config.className ? ` ${config.className}` : ''
+      }`}
+    >
       <div className="base-node__header">
         {icon}
         <span>{title}</span>
@@ -105,7 +118,15 @@ export const BaseNode = ({ id, data, config, children }) => {
           position={POSITION_MAP[h.position]}
           id={`${id}-${h.id}`}
           style={h.style}
-        />
+        >
+          {h.label && (
+            <span
+              className={`base-node__handle-label base-node__handle-label--${h.position}`}
+            >
+              {h.label}
+            </span>
+          )}
+        </Handle>
       ))}
     </div>
   );
