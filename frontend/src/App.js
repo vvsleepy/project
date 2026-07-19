@@ -4,9 +4,11 @@ import { SubmitButton } from './submit';
 
 function App() {
   return (
-    <div>
+    <div className="app">
       <PipelineToolbar />
-      <PipelineUI />
+      <main className="app__canvas">
+        <PipelineUI />
+      </main>
       <SubmitButton />
     </div>
   );

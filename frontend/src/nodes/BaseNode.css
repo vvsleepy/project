@@ -2,45 +2,128 @@
 /* Shared styling for all pipeline nodes. Variants set the accent color. */
 
 .base-node {
-  width: 200px;
-  min-height: 80px;
-  border: 1px solid var(--node-accent, #1c2536);
-  border-radius: 6px;
-  background: #fff;
+  width: 220px;
+  border: 1px solid var(--color-border, #e4e4e7);
+  border-radius: var(--radius-lg, 10px);
+  background: var(--color-surface, #fff);
+  box-shadow: var(--shadow-md, 0 1px 3px rgba(0, 0, 0, 0.06));
   font-size: 12px;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
 }
 
+.base-node:hover {
+  box-shadow: var(--shadow-lg, 0 4px 8px rgba(0, 0, 0, 0.08));
+}
+
+/* Selected state (React Flow adds .selected to the node wrapper) */
+.react-flow__node.selected .base-node {
+  border-color: var(--node-accent, #1c2536);
+  box-shadow: 0 0 0 1px var(--node-accent, #1c2536),
+    var(--shadow-lg, 0 4px 8px rgba(0, 0, 0, 0.08));
+}
+
+/* Header */
 .base-node__header {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
+  gap: 7px;
+  padding: 9px 12px;
+  font-size: 12px;
   font-weight: 600;
-  color: var(--node-accent, #1c2536);
-  border-bottom: 1px solid var(--node-accent, #1c2536);
+  letter-spacing: -0.01em;
+  color: var(--color-text, #18181b);
+  border-bottom: 1px solid var(--color-border, #e4e4e7);
+  border-radius: var(--radius-lg, 10px) var(--radius-lg, 10px) 0 0;
+  background: color-mix(in srgb, var(--node-accent, #71717a) 5%, #fff);
 }
 
+/* Accent dot before the title */
+.base-node__header::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--node-accent, #71717a);
+  flex-shrink: 0;
+}
+
+/* Body */
 .base-node__body {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 8px;
+  gap: 10px;
+  padding: 12px;
+  color: var(--color-text-secondary, #71717a);
+  line-height: 1.5;
 }
 
+/* Fields: label stacked above the control */
 .base-node__field {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 4px;
+}
+
+.base-node__label {
+  font-size: 10.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary, #71717a);
 }
 
 .base-node__field input,
+.base-node__field select,
 .base-node__field textarea {
-  flex: 1;
+  width: 100%;
   min-width: 0;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  border: 1px solid var(--color-border, #e4e4e7);
+  border-radius: var(--radius-sm, 6px);
+  background: var(--color-surface, #fff);
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--color-text, #18181b);
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.base-node__field input:hover,
+.base-node__field select:hover,
+.base-node__field textarea:hover {
+  border-color: var(--color-border-strong, #d4d4d8);
+}
+
+.base-node__field input:focus,
+.base-node__field select:focus,
+.base-node__field textarea:focus {
+  outline: none;
+  border-color: var(--node-accent, #2563eb);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--node-accent, #2563eb) 15%, transparent);
+}
+
+.base-node__field select {
+  cursor: pointer;
+}
+
+/* Handles (rendered inside .base-node, so they inherit the variant accent) */
+.base-node .react-flow__handle {
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--node-accent, #71717a);
+  background: var(--color-surface, #fff);
+  transition: background-color 120ms ease, box-shadow 120ms ease;
+}
+
+.base-node .react-flow__handle:hover {
+  background: var(--node-accent, #71717a);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--node-accent, #71717a) 20%, transparent);
 }
 
 /* Variants */
-.base-node--default   { --node-accent: #1c2536; }
+.base-node--default   { --node-accent: #52525b; }
 .base-node--action    { --node-accent: #2563eb; }
 .base-node--logic     { --node-accent: #d97706; }
 .base-node--transform { --node-accent: #7c3aed; }

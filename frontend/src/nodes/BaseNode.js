@@ -92,7 +92,7 @@ export const BaseNode = ({ id, data, config, children }) => {
         {description && <span>{description}</span>}
         {fields.map((field) => (
           <label key={field.name} className="base-node__field">
-            {field.label}:
+            <span className="base-node__label">{field.label}</span>
             {renderField(field)}
           </label>
         ))}

@@ -1,6 +1,16 @@
 // draggableNode.js
 
-export const DraggableNode = ({ type, label }) => {
+// Accent colors mirror the node variants in nodes/BaseNode.css
+const VARIANT_ACCENTS = {
+  default: '#52525b',
+  action: '#2563eb',
+  logic: '#d97706',
+  transform: '#7c3aed',
+  data: '#059669',
+  timing: '#dc2626',
+};
+
+export const DraggableNode = ({ type, label, variant = 'default' }) => {
     const onDragStart = (event, nodeType) => {
       const appData = { nodeType }
       event.target.style.cursor = 'grabbing';
@@ -10,24 +20,14 @@ export const DraggableNode = ({ type, label }) => {
   
     return (
       <div
-        className={type}
+        className={`draggable-node ${type}`}
         onDragStart={(event) => onDragStart(event, type)}
         onDragEnd={(event) => (event.target.style.cursor = 'grab')}
-        style={{ 
-          cursor: 'grab', 
-          minWidth: '80px', 
-          height: '60px',
-          display: 'flex', 
-          alignItems: 'center', 
-          borderRadius: '8px',
-          backgroundColor: '#1C2536',
-          justifyContent: 'center', 
-          flexDirection: 'column'
-        }} 
+        style={{ '--node-accent': VARIANT_ACCENTS[variant] ?? VARIANT_ACCENTS.default }}
         draggable
       >
-          <span style={{ color: '#fff' }}>{label}</span>
+          <span className="draggable-node__dot" aria-hidden="true" />
+          <span>{label}</span>
       </div>
     );
   };
-  
